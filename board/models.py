@@ -4,6 +4,7 @@ from django.db import models
 class Token(models.Model):
     """
     Post의 content에서 등장하는 모든 단어들을 Token화한 Model
+    Token이 전체게시글 중 60% 이상에서 발견되는지를 is_upper_60_percent에 저장
     """
 
     word = models.CharField(max_length=200)

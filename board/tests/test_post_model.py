@@ -23,7 +23,7 @@ class PostModelTest(TestCase):
         1. Post를 생성후 전체 Post 갯수가 11개가 되는지 확인
         2. Post중 가장 마지막 Instance가 생성한 Post와 동일한지 확인
         """
-        Post.objects.create(title="Test Title", content="Test C인ntent")
+        Post.objects.create(title="Test Title", content="Test Content")
         self.assertEqual(Post.objects.count(), 11)
         self.assertEqual(Post.objects.last().title, "Test Title")
 
