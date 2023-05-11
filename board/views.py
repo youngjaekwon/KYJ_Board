@@ -11,4 +11,7 @@ class PostView(ModelViewSet):
     permission_classes = [AllowAny]
 
     def get_serializer_class(self):
+        """
+        request의 action에 따라 serializer 선택
+        """
         return self.serializer_class.get(self.action, self.serializer_class["default"])
