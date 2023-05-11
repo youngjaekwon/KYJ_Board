@@ -48,5 +48,5 @@ class TokenModelTest(TestCase):
         """
         Token중 하나를 선택 후, 선택된 Token과 Token의 pk로 검색된 Token이 동일한지 확인
         """
-        token = Token.objects.filter()
+        token = Token.objects.first()
         self.assertEqual(token.word, Token.objects.get(pk=token.pk).word)
