@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 from board.models import Post
+from board.receivers import handle_post_save
 
 
 class PostUpdateReceiverTest(TestCase):
