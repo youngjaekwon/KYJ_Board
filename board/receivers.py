@@ -5,9 +5,9 @@ from .models import Post
 
 
 @receiver(post_save, sender=Post)
-def handle_post_save(sender, instance, **kwargs):
+def handle_post_save(sender, instance, created, **kwargs):
     """
     Post가 업데이트 될 때 Token 및 연관게시글을 업데이트 해야하는 상태로 변경
     """
-    instance.update_needed = True
-    instance.save()
+    if not created:
+        Post.objects.filter(id=instance.id).update(update_needed=True)
