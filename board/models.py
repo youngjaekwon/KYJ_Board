@@ -7,7 +7,7 @@ class Token(models.Model):
     Token이 전체게시글 중 60% 이상에서 발견되는지를 is_upper_60_percent에 저장
     """
 
-    word = models.CharField(max_length=200)
+    word = models.CharField(max_length=200, unique=True)
     is_upper_60_percent = models.BooleanField(default=False)
 
 
