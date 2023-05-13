@@ -38,6 +38,10 @@ def update_post_task():
             token, _ = Token.objects.get_or_create(word=word)
             PostToken.objects.create(post=post, token=token, count=freq)
 
+        # Post의 updated_needed 상태 변경
+        post.update_needed = False
+        post.save()
+
     if tokens_count != Token.objects.count():
         # 토큰의 상태를 업데이트하고 업데이트된 토큰들을 가져옴
         updated_tokens = update_tokens_is_upper_60_percent()
