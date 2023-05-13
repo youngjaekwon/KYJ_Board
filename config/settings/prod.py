@@ -20,7 +20,7 @@ CELERY_RESULT_BACKEND = "redis://redis:6379"
 
 DATABASES = {
     "default": {
-        "ENFINE": "django.db.backends.postgresql",
+        "ENGINE": "django.db.backends.postgresql",
         "NAME": env("DB_NAME"),
         "USER": env("DB_USER"),
         "PASSWORD": env("DB_PASSWORD"),

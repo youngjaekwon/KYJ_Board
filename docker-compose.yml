@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:13-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ./docker/postgresql/data/:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=django
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    restart: always
+
+  redis:
+    container_name: redis
+    image: redis:5
+    volumes:
+      - ./docker/redis/data:/data
+    restart: always
+
+  celery-beat:
+    container_name: celery-beat
+    image: gczzga/kyj-board:latest
+    volumes:
+      - ./docker/celery/pid:/var/run/celery
+      - ./docker/celery/log:/var/log/celery
+      - ./nltk_data:/usr/src/app/nltk_data
+    command: celery -A config worker --beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info --pidfile=/var/run/celery/%n.pid --logfile=/var/log/celery/%n.log
+    depends_on:
+      - postgres
+      - redis
+
+  web:
+    container_name: django
+    image: gczzga/kyj-board:latest
+    volumes:
+      - ./nltk_data:/usr/src/app/nltk_data
+    command: >
+      bash -c "python manage.py migrate 
+      && gunicorn --workers=2 --bind 0.0.0.0:8000 --preload config.wsgi:application"
+    depends_on:
+      - postgres
+      - redis
+
+  nginx:
+    container_name: nginx
+    image: nginx:1.21.5-alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/log:/var/log/nginx
+    depends_on:
+      - web
