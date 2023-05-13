@@ -41,10 +41,11 @@ services:
       - ./docker/celery/log:/var/log/celery
       - ./nltk_data:/usr/src/app/nltk_data
     command: celery -A config worker --beat --scheduler django_celery_beat.schedulers:DatabaseScheduler --loglevel=info --pidfile=/var/run/celery/%n.pid --logfile=/var/log/celery/%n.log
-    postgres:
-      condition: service_healthy
-    redis:
-      condition: service_healthy
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   web:
     container_name: django
