@@ -11,6 +11,9 @@ def update_tokens_is_upper_60_percent():
     # 전체 Post 갯수
     posts_count = Post.objects.count()
 
+    # 상태가 변경된 토큰들을 저장할 set
+    updated_tokens = set()
+
     for token in tokens:
         # Token을 포함하고 있는 Posts
         posts = Post.objects.filter(posttoken__token=token)
@@ -26,3 +29,6 @@ def update_tokens_is_upper_60_percent():
             # 상태가 변경된 경우 업데이트
             token.is_upper_60_percent = new_is_upper_60_percent
             token.save()
+            updated_tokens.add(token.word)
+
+    return updated_tokens

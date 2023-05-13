@@ -4,6 +4,8 @@ from celery import shared_task
 import nltk
 
 from .models import Post, Token, PostToken
+from .utils.token import update_tokens_is_upper_60_percent
+from .utils.post import update_current_post_related_posts, update_related_posts
 
 
 @shared_task
@@ -38,14 +40,10 @@ def update_post_tokens():
             PostToken.objects.create(post=post, token=token, count=freq)
 
     if tokens_count != Token.objects.count():
-        """
-        TODO
-        모든 Post의 Token 등록 후 전체 Token의 변경사항이 있으면
-        Token들의 is_upper_60_percent(전체 게시글중 60%에서 등장하는지)를 업데이트 해야함
-        """
-        pass
+        # 토큰의 상태를 업데이트하고 업데이트된 토큰들을 가져옴
+        updated_tokens = update_tokens_is_upper_60_percent()
+        # 업데이트된 토큰들을 가지고 있는 게시글들의 연관게시글을 업데이트
+        update_current_post_related_posts(updated_tokens)
 
-    """
-    TODO
-    Post에 연관게시글 리스트를 업데이트 해야함
-    """
+    # 새로 추가된 게시글들의 연관게시글을 업데이트
+    update_related_posts(targets)
