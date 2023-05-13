@@ -48,3 +48,6 @@ class PostSimilarity(models.Model):
     )
     related_tokens = models.ManyToManyField("Token", blank=True)
     similarity = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ("similarity",)

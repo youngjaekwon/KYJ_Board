@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Post
+from .models import Post, PostSimilarity
 
 
 class PostListSerializer(serializers.ModelSerializer):
@@ -18,12 +18,16 @@ class PostSerializer(serializers.ModelSerializer):
     Post의 Retrieve용 Serializer
     """
 
-    related_posts = PostListSerializer(many=True, read_only=True)
+    # related_posts = PostListSerializer(many=True, read_only=True)
 
-    """
-    TODO
-    related_posts 출력 시 similarity score순서로 정렬
-    """
+    related_posts = serializers.SerializerMethodField()
+
+    def get_related_posts(self, instance):
+        """
+        연관게시글을 연관도 순서로 정렬
+        """
+        related_posts = instance.related_posts.order_by("-similar_post")
+        return PostListSerializer(related_posts, many=True).data
 
     class Meta:
         model = Post
