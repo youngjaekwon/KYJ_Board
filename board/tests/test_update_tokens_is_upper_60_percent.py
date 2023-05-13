@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from board.factories import PostFactory
 from board.models import Post, Token
-from board.tasks import update_post_tokens
+from board.tasks import update_post_task
 from board.utils.token import update_tokens_is_upper_60_percent
 
 
@@ -17,7 +17,7 @@ class UpdateTokensTest(TestCase):
 
     def test_token_is_upper_60_percent(self):
         # Token을 생성
-        update_post_tokens()
+        update_post_task()
 
         # Token의 상태를 update
         update_tokens_is_upper_60_percent()

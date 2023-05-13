@@ -10,11 +10,9 @@ from .utils.post import update_current_post_related_posts, update_related_posts
 
 @shared_task
 @transaction.atomic
-def update_post_tokens():
+def update_post_task():
     """
-    Post가 create 또는 update 되면 Token을 업데이트 하는 Task
-
-    nltk로 본문을 토큰화 하여 저장
+    Post가 create 또는 update 되면 Token 및 연관게시글을 업데이트
     """
 
     targets = Post.objects.filter(update_needed=True)
@@ -25,6 +23,7 @@ def update_post_tokens():
     tokens_count = Token.objects.count()
 
     for post in targets:
+        # nltk로 본문을 토큰화
         tokens = nltk.word_tokenize(post.content)
 
         # 추출된 토큰중에서 특수문자를 제외
