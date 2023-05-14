@@ -11,20 +11,20 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      About The Project
       <ul>
-        <li><a href="#built-with">Built With</a></li>
+        <li>Built With</li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      Getting Started
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li>Prerequisites</li>
+        <li>Installation</li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li>Usage</li>
+    <li>Feature</li>
   </ol>
 </details>
 
@@ -144,10 +144,7 @@
 - DELETE
   - 게시글을 삭제합니다.
 
-
-<!-- ROADMAP -->
-
-## Roadmap
+## Feature
 
 -   [ ] 게시글의 생성, 조회, 수정, 삭제 기능
     -   [ ] Django와 DRF를 이용하여 구현
